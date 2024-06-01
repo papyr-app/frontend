@@ -13,7 +13,7 @@ export default function Header() {
         <header>
             <div className="logo">
                 <a href="/">
-                    <img src="feather.png" />
+                    <img src="logo.png" />
                 </a>
             </div>
             <div className="login">
