@@ -4,7 +4,7 @@
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
-  
+
   .dashboard-header {
     display: flex;
     justify-content: space-between;
@@ -16,27 +16,12 @@
     }
   }
 
-  .document-list {
-    list-style-type: none;
+  .document-container {
     padding: 0;
     margin: 0;
 
-    li {
-      padding: 20px;
-      border: 1px solid #ccc;
-      margin-bottom: 10px;
-      display: flex;
-      flex-direction: column;
-
-      a {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-
-      p {
-        margin: 5px 0;
-      }
+    ul {
+      list-style-type: none;
     }
   }
 }

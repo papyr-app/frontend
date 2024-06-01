@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PDFDocument } from '@customTypes/pdf_document';
 import { SlCloudUpload } from 'react-icons/sl';
-import { Directory } from '@components/directory/Directory';
 import { TreeNode } from '@customTypes/tree_node';
+import Directory from '@components/directory/Directory';
 import ShareDocument from '@components/share_document/ShareDocument';
 import EditDocument from '@components/edit_document/EditDocument';
 import Modal from '@components/modal/Modal';
@@ -12,7 +12,8 @@ import './Dashboard.scss';
 
 export default function Dashboard() {
     const [documents, setDocuments] = useState<PDFDocument[]>([]);
-    const [tree, setTree] = useState<TreeNode | null>(null);
+    const [ownerRoot, setOwnerRoot] = useState<TreeNode | null>(null);
+    const [sharedRoot, setSharedRoot] = useState<TreeNode | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedDocument, setSelectedDocument] = useState<PDFDocument | null>(null);
@@ -38,13 +39,12 @@ export default function Dashboard() {
 
     useEffect(() => {
         function buildTree(documents: PDFDocument[]) {
-            const root: TreeNode = { name: 'root', children: [] };
+            const rootOwner: TreeNode = { name: 'My Files', children: [] };
+            const rootShared: TreeNode = { name: 'Shared with Me', children: [] };
 
             documents.forEach(doc => {
                 const parts = doc.file_path.split('/').filter(part => part);
-                let current = root;
-
-                console.log(parts)
+                let current = doc.is_owner ? rootOwner : rootShared;
 
                 parts.forEach((part, index) => {
                     let node = current.children.find(child => child.name === part);
@@ -56,12 +56,12 @@ export default function Dashboard() {
                 });
             });
 
-            return root;
+            return [rootOwner, rootShared];
         };
 
-        const treeStructure = buildTree(documents);
-        console.log(treeStructure)
-        setTree(treeStructure);
+        const [ownerTree, sharedTree] = buildTree(documents);
+        setOwnerRoot(ownerTree);
+        setSharedRoot(sharedTree);
     }, [documents]);
 
     function uploadDocument() {
@@ -94,16 +94,33 @@ export default function Dashboard() {
     return (
         <div className="dashboard-container">
             <div className="dashboard-header">
-                <h2 className="dashboard-title">My Documents</h2>
+                <h2 className="dashboard-title">All Documents</h2>
                 <button className="button-primary upload-button" onClick={uploadDocument}>
                     <SlCloudUpload className="icon" /> Upload Document
                 </button>
             </div>
-            {tree && (
-                <ul className="document-list">
-                    {tree && <Directory {...tree} /> }
-                </ul>
-            )}
+
+            <div className='document-container'>
+                {ownerRoot && (
+                    <ul>
+                        <Directory
+                            key={ownerRoot.name}
+                            treeNode={ownerRoot}
+                            handleShowEditModal={handleShowEditModal}
+                            handleShowShareModal={handleShowShareModal} />
+                    </ul>
+                )}
+
+                {sharedRoot && (
+                    <ul>
+                        <Directory
+                            key={sharedRoot.name}
+                            treeNode={sharedRoot}
+                            handleShowEditModal={handleShowEditModal}
+                            handleShowShareModal={handleShowShareModal} />
+                    </ul>
+                )}
+            </div>
 
             <Modal show={showShareModal} onClose={handleCloseShareModal}>
                 <h2 className="modal-title">Share</h2>

@@ -1,0 +1,36 @@
+@import '../../global.scss';
+
+.document-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+
+  .document-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-right: 20px;
+
+    .document-link {
+      font-weight: bold;
+      color: #007bff;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .document-description,
+    .document-owner,
+    .document-updated {
+      margin: 0;
+      color: #555;
+    }
+  }
+
+  .document-buttons {
+    display: flex;
+  }
+}

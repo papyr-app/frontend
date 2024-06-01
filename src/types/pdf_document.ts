@@ -10,6 +10,7 @@ export interface PDFDocument {
     can_share: boolean;
     share_token: string;
     file_path: string;
+    is_owner: boolean;
     created_at: Date;
     updated_at: Date;
 }

@@ -1,0 +1,31 @@
+@import '../../global.scss';
+
+
+.directory-container {
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 8px;
+
+  .directory-name {
+    display: flex;
+    align-items: center;
+    margin: 8px;
+    padding: 6px;
+
+    .directory-icon {
+      margin-right: 5px;
+    }
+  }
+
+  .nested {
+    &.closed {
+      display: none;
+    }
+
+    &.open {
+      display: block;
+    }
+  }
+}
