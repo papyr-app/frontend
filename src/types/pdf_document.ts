@@ -2,11 +2,10 @@ import { User } from "./user";
 
 export interface PDFDocument {
     _id: string,
-    owner: User;
     title: string;
     description?: string;
     status: DocumentStatus;
-    collaborators?: User[];
+    owner: User;
     can_share: boolean;
     share_token: string;
     file_path: string;

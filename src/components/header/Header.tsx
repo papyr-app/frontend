@@ -13,7 +13,8 @@ export default function Header() {
         <header>
             <div className="logo">
                 <a href="/">
-                    <img src="logo.png" />
+                    <img src={`${process.env.PUBLIC_URL}/logo.png`} alt='Papyr Logo. Links to the Papyr home page.'
+                        onError={(e) => {console.log(e)}} />
                 </a>
             </div>
             <div className="login">

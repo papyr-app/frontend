@@ -24,7 +24,7 @@ export default function Modal(props: ModalProps) {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [props.show, props.onClose]);
+    }, [props]);
 
     if (!props.show) {
         return null;

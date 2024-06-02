@@ -1,5 +1,4 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import axios from 'axios';
 import { CreatePDFDocument } from '@customTypes/pdf_document';
 import api from '@api/index';
 import './UploadDocument.scss';

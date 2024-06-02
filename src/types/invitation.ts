@@ -10,6 +10,6 @@ export interface Invitation {
 }
 
 export interface CreateInvitation {
-    email: string;
-    document_id: string;
+    document: string;
+    invitee: string;
 }

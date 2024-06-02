@@ -1,4 +1,50 @@
-.pdf-container .rpv-core__viewer {
+@import '../../global.scss';
+
+.pdf-container {
+  display: flex;
+  justify-content: space-between;
+
+  .pdf-article {
+
+    .zoom-toolbar {
+      position: absolute;
+      top: 10vh;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5px 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+
+      svg {
+        font-size: 18px;
+        cursor: pointer;
+        margin: 0 5px;
+      }
+
+      .zoom-percentage {
+        font-size: 16px;
+        margin: 0 10px;
+      }
+    }
+  }
+
+  .rpv-core__viewer {
     height: 100%;
     width: 100%;
+  }
+
+  .pdf-aside {
+    width: 15%;
+    padding: 10px;
+    background-color: #f4f4f4;
+  }
+
+  .pdf-article {
+    width: 70%;
+    padding: 10px;
+  }
 }
