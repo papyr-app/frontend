@@ -1,28 +1,28 @@
 {
   "test": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-papyrfrontend-test-fa3a3-authRole",
-      "UnauthRoleArn": "arn:aws:iam::767398086501:role/amplify-papyrfrontend-test-fa3a3-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::767398086501:role/amplify-papyrfrontend-test-fa3a3-authRole",
+      "AuthRoleName": "amplify-frontend-test-8cab0-authRole",
+      "UnauthRoleArn": "arn:aws:iam::767398086501:role/amplify-frontend-test-8cab0-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::767398086501:role/amplify-frontend-test-8cab0-authRole",
       "Region": "eu-north-1",
-      "DeploymentBucketName": "amplify-papyrfrontend-test-fa3a3-deployment",
-      "UnauthRoleName": "amplify-papyrfrontend-test-fa3a3-unauthRole",
-      "StackName": "amplify-papyrfrontend-test-fa3a3",
-      "StackId": "arn:aws:cloudformation:eu-north-1:767398086501:stack/amplify-papyrfrontend-test-fa3a3/25b1fd10-22a3-11ef-9337-0e24c393a4ff",
-      "AmplifyAppId": "d3rw5h3oi2p4wb"
+      "DeploymentBucketName": "amplify-frontend-test-8cab0-deployment",
+      "UnauthRoleName": "amplify-frontend-test-8cab0-unauthRole",
+      "StackName": "amplify-frontend-test-8cab0",
+      "StackId": "arn:aws:cloudformation:eu-north-1:767398086501:stack/amplify-frontend-test-8cab0/1d5c4e90-22ad-11ef-ac64-0aba472cafcf",
+      "AmplifyAppId": "d9sptz6k242ii"
     }
   },
   "prod": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-papyrfrontend-prod-82bfb-authRole",
-      "UnauthRoleArn": "arn:aws:iam::767398086501:role/amplify-papyrfrontend-prod-82bfb-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::767398086501:role/amplify-papyrfrontend-prod-82bfb-authRole",
+      "AuthRoleName": "amplify-frontend-prod-e86ef-authRole",
+      "UnauthRoleArn": "arn:aws:iam::767398086501:role/amplify-frontend-prod-e86ef-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::767398086501:role/amplify-frontend-prod-e86ef-authRole",
       "Region": "eu-north-1",
-      "DeploymentBucketName": "amplify-papyrfrontend-prod-82bfb-deployment",
-      "UnauthRoleName": "amplify-papyrfrontend-prod-82bfb-unauthRole",
-      "StackName": "amplify-papyrfrontend-prod-82bfb",
-      "StackId": "arn:aws:cloudformation:eu-north-1:767398086501:stack/amplify-papyrfrontend-prod-82bfb/90842e10-22a3-11ef-b76d-0a7843417bd9",
-      "AmplifyAppId": "d3rw5h3oi2p4wb"
+      "DeploymentBucketName": "amplify-frontend-prod-e86ef-deployment",
+      "UnauthRoleName": "amplify-frontend-prod-e86ef-unauthRole",
+      "StackName": "amplify-frontend-prod-e86ef",
+      "StackId": "arn:aws:cloudformation:eu-north-1:767398086501:stack/amplify-frontend-prod-e86ef/520d1390-22ad-11ef-acd0-0a5e4dd4fddb",
+      "AmplifyAppId": "d9sptz6k242ii"
     }
   }
 }
