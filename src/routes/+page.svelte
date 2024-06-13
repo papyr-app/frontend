@@ -1,3 +1,3 @@
-<div class="container mx-auto h-screen flex justify-center items-center">
-    <h1 class="text-4xl">Welcome to Papyr</h1>
+<div class="container mx-auto flex-grow flex justify-center items-center">
+	<h1>Welcome to Papyr : )</h1>
 </div>
