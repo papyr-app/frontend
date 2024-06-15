@@ -2,7 +2,7 @@ import axiosInstance from '@api/instance';
 import { CreateInvitation } from '@customTypes/invitation';
 
 export const getInvitation = async (invitationId: string) => {
-  const response = await axiosInstance.get(`/invitation/${invitationId}`)
+  const response = await axiosInstance.get(`/invitation/${invitationId}`);
   return response.data;
 };
 
@@ -17,11 +17,16 @@ export const getReceivedInvitations = async () => {
 };
 
 export const createInvitation = async (invitationData: CreateInvitation) => {
-  const response = await axiosInstance.post('/invitation/invite', invitationData);
+  const response = await axiosInstance.post(
+    '/invitation/invite',
+    invitationData
+  );
   return response.data;
 };
 
 export const acceptInvitation = async (invitationId: string) => {
-  const response = await axiosInstance.post('/invitation/accept', { invitation_id: invitationId });
+  const response = await axiosInstance.post('/invitation/accept', {
+    invitation_id: invitationId,
+  });
   return response.data;
 };

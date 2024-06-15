@@ -11,126 +11,138 @@ import api from '@api/index';
 import './Dashboard.scss';
 
 export default function Dashboard() {
-    const [documents, setDocuments] = useState<PDFDocument[]>([]);
-    const [ownerRoot, setOwnerRoot] = useState<TreeNode | null>(null);
-    const [sharedRoot, setSharedRoot] = useState<TreeNode | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [selectedDocument, setSelectedDocument] = useState<PDFDocument | null>(null);
-    const [showShareModal, setShowShareModal] = useState<boolean>(false);
-    const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [documents, setDocuments] = useState<PDFDocument[]>([]);
+  const [ownerRoot, setOwnerRoot] = useState<TreeNode | null>(null);
+  const [sharedRoot, setSharedRoot] = useState<TreeNode | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedDocument, setSelectedDocument] = useState<PDFDocument | null>(
+    null
+  );
+  const [showShareModal, setShowShareModal] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        async function fetchDocuments() {
-            try {
-                const data = await api.user.getUserDocuments();
-                setDocuments(data.data);
-            } catch (err) {
-                setError('Failed to fetch documents');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchDocuments();
-    }, []);
-
-    useEffect(() => {
-        function buildTree(documents: PDFDocument[]) {
-            const rootOwner: TreeNode = { name: 'My Files', children: [] };
-            const rootShared: TreeNode = { name: 'Shared with Me', children: [] };
-
-            documents.forEach(doc => {
-                const parts = doc.file_path.split('/').filter(part => part);
-                let current = doc.is_owner ? rootOwner : rootShared;
-
-                parts.forEach((part, index) => {
-                    let node = current.children.find(child => child.name === part);
-                    if (!node) {
-                        node = { name: part, children: [], isFile: index === parts.length - 1, doc };
-                        current.children.push(node);
-                    }
-                    current = node;
-                });
-            });
-
-            return [rootOwner, rootShared];
-        };
-
-        const [ownerTree, sharedTree] = buildTree(documents);
-        setOwnerRoot(ownerTree);
-        setSharedRoot(sharedTree);
-    }, [documents]);
-
-    function uploadDocument() {
-        navigate(`/document/new`);
+  useEffect(() => {
+    async function fetchDocuments() {
+      try {
+        const data = await api.user.getUserDocuments();
+        setDocuments(data.data);
+      } catch (err) {
+        setError('Failed to fetch documents');
+      } finally {
+        setLoading(false);
+      }
     }
 
-    function handleShowShareModal(document: PDFDocument) {
-        setSelectedDocument(document);
-        setShowShareModal(true);
+    fetchDocuments();
+  }, []);
+
+  useEffect(() => {
+    function buildTree(documents: PDFDocument[]) {
+      const rootOwner: TreeNode = { name: 'My Files', children: [] };
+      const rootShared: TreeNode = { name: 'Shared with Me', children: [] };
+
+      documents.forEach((doc) => {
+        const parts = doc.file_path.split('/').filter((part) => part);
+        let current = doc.is_owner ? rootOwner : rootShared;
+
+        parts.forEach((part, index) => {
+          let node = current.children.find((child) => child.name === part);
+          if (!node) {
+            node = {
+              name: part,
+              children: [],
+              isFile: index === parts.length - 1,
+              doc,
+            };
+            current.children.push(node);
+          }
+          current = node;
+        });
+      });
+
+      return [rootOwner, rootShared];
     }
 
-    function handleCloseShareModal() {
-        setSelectedDocument(null);
-        setShowShareModal(false);
-    }
+    const [ownerTree, sharedTree] = buildTree(documents);
+    setOwnerRoot(ownerTree);
+    setSharedRoot(sharedTree);
+  }, [documents]);
 
-    function handleShowEditModal(document: PDFDocument) {
-        setSelectedDocument(document);
-        setShowEditModal(true);
-    }
+  function uploadDocument() {
+    navigate(`/document/new`);
+  }
 
-    function handleCloseEditModal() {
-        setSelectedDocument(null);
-        setShowEditModal(false);
-    }
+  function handleShowShareModal(document: PDFDocument) {
+    setSelectedDocument(document);
+    setShowShareModal(true);
+  }
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+  function handleCloseShareModal() {
+    setSelectedDocument(null);
+    setShowShareModal(false);
+  }
 
-    return (
-        <div className="dashboard-container">
-            <div className="dashboard-header">
-                <h2 className="dashboard-title">All Documents</h2>
-                <button className="button-primary upload-button" onClick={uploadDocument}>
-                    <SlCloudUpload className="icon" /> Upload Document
-                </button>
-            </div>
+  function handleShowEditModal(document: PDFDocument) {
+    setSelectedDocument(document);
+    setShowEditModal(true);
+  }
 
-            <div className='document-container'>
-                {ownerRoot && (
-                    <ul>
-                        <Directory
-                            key={ownerRoot.name}
-                            treeNode={ownerRoot}
-                            handleShowEditModal={handleShowEditModal}
-                            handleShowShareModal={handleShowShareModal} />
-                    </ul>
-                )}
+  function handleCloseEditModal() {
+    setSelectedDocument(null);
+    setShowEditModal(false);
+  }
 
-                {sharedRoot && (
-                    <ul>
-                        <Directory
-                            key={sharedRoot.name}
-                            treeNode={sharedRoot}
-                            handleShowEditModal={handleShowEditModal}
-                            handleShowShareModal={handleShowShareModal} />
-                    </ul>
-                )}
-            </div>
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
-            <Modal show={showShareModal} onClose={handleCloseShareModal}>
-                <h2 className="modal-title">Share</h2>
-                {selectedDocument && <ShareDocument document={selectedDocument} />}
-            </Modal>
+  return (
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h2 className="dashboard-title">All Documents</h2>
+        <button
+          className="button-primary upload-button"
+          onClick={uploadDocument}
+        >
+          <SlCloudUpload className="icon" /> Upload Document
+        </button>
+      </div>
 
-            <Modal show={showEditModal} onClose={handleCloseEditModal}>
-                <h2 className="modal-title">Edit</h2>
-                {selectedDocument && <EditDocument document={selectedDocument} />}
-            </Modal>
-        </div>
-    );
+      <div className="document-container">
+        {ownerRoot && (
+          <ul>
+            <Directory
+              key={ownerRoot.name}
+              treeNode={ownerRoot}
+              handleShowEditModal={handleShowEditModal}
+              handleShowShareModal={handleShowShareModal}
+            />
+          </ul>
+        )}
+
+        {sharedRoot && (
+          <ul>
+            <Directory
+              key={sharedRoot.name}
+              treeNode={sharedRoot}
+              handleShowEditModal={handleShowEditModal}
+              handleShowShareModal={handleShowShareModal}
+            />
+          </ul>
+        )}
+      </div>
+
+      <Modal show={showShareModal} onClose={handleCloseShareModal}>
+        <h2 className="modal-title">Share</h2>
+        {selectedDocument && <ShareDocument document={selectedDocument} />}
+      </Modal>
+
+      <Modal show={showEditModal} onClose={handleCloseEditModal}>
+        <h2 className="modal-title">Edit</h2>
+        {selectedDocument && <EditDocument />}
+      </Modal>
+    </div>
+  );
 }

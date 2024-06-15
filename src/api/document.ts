@@ -7,9 +7,12 @@ export const getDocument = async (documentId: string) => {
 };
 
 export const downloadDocument = async (documentId: string) => {
-  const response = await axiosInstance.get(`/documents/${documentId}/download`, {
-    responseType: 'arraybuffer',
-  });
+  const response = await axiosInstance.get(
+    `/documents/${documentId}/download`,
+    {
+      responseType: 'arraybuffer',
+    }
+  );
   return response.data;
 };
 
@@ -18,8 +21,14 @@ export const createDocument = async (formData: FormData) => {
   return response.data;
 };
 
-export const updateDocument = async (documentId: string, updateData: UpdatePDFDocument) => {
-  const response = await axiosInstance.patch(`/documents/${documentId}`, updateData);
+export const updateDocument = async (
+  documentId: string,
+  updateData: UpdatePDFDocument
+) => {
+  const response = await axiosInstance.patch(
+    `/documents/${documentId}`,
+    updateData
+  );
   return response.data;
 };
 
@@ -29,12 +38,18 @@ export const deleteDocument = async (documentId: string) => {
 };
 
 export const addCollaborator = async (documentId: string, email: string) => {
-  const response = await axiosInstance.post(`/documents/${documentId}/add_collaborator`, { email });
+  const response = await axiosInstance.post(
+    `/documents/${documentId}/add_collaborator`,
+    { email }
+  );
   return response.data;
 };
 
 export const removeCollaborator = async (documentId: string, email: string) => {
-  const response = await axiosInstance.post(`/documents/${documentId}/remove_collaborator`, { email });
+  const response = await axiosInstance.post(
+    `/documents/${documentId}/remove_collaborator`,
+    { email }
+  );
   return response.data;
 };
 

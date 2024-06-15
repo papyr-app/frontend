@@ -14,25 +14,33 @@ import reportWebVitals from './reportWebVitals';
 import './global.scss';
 
 const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<><Header /><Outlet /></>}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/document/new" element={<UploadDocument />} />
-                    <Route path="/document/:documentId" element={<Workspace />} />
-                    <Route path="/share" element={<GrantAccess />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/logout" element={<Logout />} />
-                    <Route path="*" element={<PageNotFound />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    </React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Header />
+              <Outlet />
+            </>
+          }
+        >
+          <Route path="/" element={<Home />} />
+          <Route path="/document/new" element={<UploadDocument />} />
+          <Route path="/document/:documentId" element={<Workspace />} />
+          <Route path="/share" element={<GrantAccess />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
 reportWebVitals();

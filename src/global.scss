@@ -11,7 +11,7 @@ $secondary-hover-color: darken($secondary-color, 10%);
 $primary-active-color: lighten($primary-color, 10%);
 $secondary-active-color: lighten($secondary-color, 10%);
 $error-color: red;
-$font-family: "Chivo Mono", monospace;
+$font-family: 'Chivo Mono', monospace;
 
 body {
   font-family: $font-family;
@@ -42,7 +42,9 @@ $transition-duration: 0.1s;
   border: none;
   border-radius: $button-border-radius;
   cursor: pointer;
-  transition: transform $transition-duration ease-in-out, box-shadow $transition-duration ease-in-out;
+  transition:
+    transform $transition-duration ease-in-out,
+    box-shadow $transition-duration ease-in-out;
 
   .icon {
     margin-right: 10px;
@@ -105,9 +107,9 @@ $input-font-size: 16px;
 $input-border-radius: 4px;
 $transition-duration: 0.1s;
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
+input[type='text'],
+input[type='password'],
+input[type='email'],
 textarea {
   display: block;
   width: 100%;
@@ -117,7 +119,9 @@ textarea {
   background-color: $input-background-color;
   border: 1px solid $input-border-color;
   border-radius: $input-border-radius;
-  transition: border-color $transition-duration ease-in-out, box-shadow $transition-duration ease-in-out;
+  transition:
+    border-color $transition-duration ease-in-out,
+    box-shadow $transition-duration ease-in-out;
 
   &:focus {
     border-color: $input-focus-border-color;

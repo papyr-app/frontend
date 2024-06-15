@@ -1,4 +1,4 @@
-import { PDFDocument } from "./pdf_document";
+import { PDFDocument } from './pdf_document';
 
 export interface TreeNode {
   name: string;
