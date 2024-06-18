@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	export let form: ActionData;
 
 	onMount(() => {
 		if (form?.success) {
-			let token = form.token;
-			localStorage.setItem('token', token);
+			goto('/library');
 		}
 	});
 </script>
