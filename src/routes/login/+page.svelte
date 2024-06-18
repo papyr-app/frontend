@@ -1,6 +1,20 @@
+<script lang="ts">
+	import type { ActionData } from './$types';
+	import { onMount } from 'svelte';
+
+	export let form: ActionData;
+
+	onMount(() => {
+		if (form?.success) {
+			let token = form.token;
+			localStorage.setItem('token', token);
+		}
+	});
+</script>
+
 <div class="container flex-grow mx-auto flex flex-col items-center justify-center">
 	<h1 class="my-4">Log in</h1>
-	<form method="POST" class="flex flex-col items-center">
+	<form method="POST" action="?/login" class="flex flex-col items-center">
 		<input
 			class="border-black border-2 rounded-md my-2 pl-2"
 			type="text"
@@ -17,4 +31,8 @@
 		/>
 		<button class="border-black border-2 rounded-md my-2 w-16" type="submit">Log in</button>
 	</form>
+
+	{#if form?.incorrect}
+		<p class="text-red-500">Invalid credentials</p>
+	{/if}
 </div>

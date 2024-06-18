@@ -1,8 +1,8 @@
 import type { Actions } from './$types';
-import { error } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 
 export const actions = {
-	default: async ({ request }) => {
+	login: async ({ request }) => {
 		const formData = await request.formData();
 		const username = formData.get('username');
 		const password = formData.get('password');
@@ -15,12 +15,11 @@ export const actions = {
 			body: JSON.stringify({ username, password })
 		});
 
-		if (!response.ok) {
-			const err = await response.json();
-			console.log(err);
-			error(400, err.error);
-		}
+		if (!response.ok) return fail(401, { username, incorrect: true });
 
-		// const data = await response.json();
+		const responseJSON = await response.json();
+		const token = responseJSON.data;
+
+		return { success: true, token };
 	}
 } satisfies Actions;
