@@ -1,5 +1,8 @@
 FROM node:18.18 AS build
 
+ARG API_URL
+ENV REACT_APP_API_URL=$API_URL
+
 WORKDIR /app
 
 COPY package.json package-lock.json ./
