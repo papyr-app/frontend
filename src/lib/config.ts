@@ -1,9 +1,10 @@
-import { env } from '$env/dynamic/private';
+import { PUBLIC_BACKEND_URL } from '$env/static/public';
+import { dev } from '$app/environment';
 
-const backendUrl = env.VITE_BACKEND_URL || 'localhost:5000';
+const backendUrl = PUBLIC_BACKEND_URL || 'localhost:5000';
 
-const protocol = env.NODE_ENV === 'development' ? 'http://' : 'https://';
-const wsProtocol = env.NODE_ENV === 'development' ? 'ws://' : 'wss://';
+const protocol = dev ? 'http://' : 'https://';
+const wsProtocol =  dev ? 'ws://' : 'wss://';
 
 export const httpUrl = `${protocol}${backendUrl}`;
 export const wsUrl = `${wsProtocol}${backendUrl}`;

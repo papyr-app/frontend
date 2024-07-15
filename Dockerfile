@@ -1,5 +1,8 @@
 FROM node:18.18 AS build
 
+ARG BACKEND_URL 
+ENV PUBLIC_BACKEND_URL=${BACKEND_URL}
+
 WORKDIR /app
 
 COPY package.json package-lock.json ./
