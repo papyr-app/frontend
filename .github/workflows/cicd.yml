@@ -1,0 +1,81 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  lint-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.18'
+
+      - name: Install dependencies
+        run: |
+          npm install --legacy-peer-deps
+
+      - name: Run prettier
+        run: |
+          npm run format
+
+      - name: Run eslint
+        run: |
+          npm run lint
+
+  build-and-push:
+    needs: lint-format
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Set tag variable
+        id: set-env
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "TAG=test" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "TAG=prod" >> $GITHUB_ENV
+          fi
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ env.TAG }}
+
+      - name: Trigger deployment webhook for develop
+        if: github.ref == 'refs/heads/develop'
+        env:
+          SECRET_TOKEN: ${{ secrets.WEBHOOK_TOKEN }}
+        run: |
+          python scripts/deploy.py test
+
+      - name: Trigger deployment webhook for main
+        if: github.ref == 'refs/heads/main'
+        env:
+          SECRET_TOKEN: ${{ secrets.WEBHOOK_TOKEN }}
+        run: |
+          python scripts/deploy.py prod
