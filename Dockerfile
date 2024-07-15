@@ -6,17 +6,17 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
+
 RUN npm run build
 
 FROM node:18.18 AS production
 
 WORKDIR /app
 
-RUN npm install -g serve
+COPY --from=build /app ./
 
-COPY --from=build /app/.svelte-kit /app/.svelte-kit
-COPY --from=build /app/static /app/static
+RUN npm install --production
 
 EXPOSE 3000
 
-CMD ["serve", "-s", "/app/.svelte-kit/output", "-l", "3000"]
+CMD ["node", "build"]
