@@ -42,11 +42,11 @@ jobs:
 
       - name: Set API_URL for develop
         if: github.ref == 'refs/heads/develop'
-        run: echo "BACKEND_URL=test-api.papyr-app.xyz/api" >> $GITHUB_ENV
+        run: echo "BACKEND_URL=test-api.papyr-app.xyz" >> $GITHUB_ENV
 
       - name: Set API_URL for main
         if: github.ref == 'refs/heads/main'
-        run: echo "BACKEND_URL=api.papyr-app.xyz/api" >> $GITHUB_ENV
+        run: echo "BACKEND_URL=api.papyr-app.xyz" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
