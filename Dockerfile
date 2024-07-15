@@ -14,8 +14,8 @@ WORKDIR /app
 
 RUN npm install -g serve
 
-COPY --from=build /app/build /app/build
+COPY --from=build /app/.svelte-kit /app/.svelte-kit
 
 EXPOSE 3000
 
-CMD ["serve", "-s", "/app/build", "-l", "3000"]
+CMD ["serve", "-s", "/app/.svelte-kit", "-l", "3000"]
