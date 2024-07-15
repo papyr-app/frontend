@@ -1,7 +1,9 @@
 import type { RequestHandler } from '@sveltejs/kit';
+import { httpUrl } from '$lib/config';
+
 
 export const GET: RequestHandler = async () => {
-	const response = await fetch('http://localhost:5000/api/documents', {
+	const response = await fetch(`${httpUrl}/documents`, {
 		method: 'GET'
 	});
 
