@@ -1,4 +1,4 @@
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'localhost:5000/api';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'localhost:5000';
 
 const protocol =
   process.env.NODE_ENV === 'development' ? 'http://' : 'https://';
