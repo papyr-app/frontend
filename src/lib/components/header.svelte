@@ -24,6 +24,7 @@
 	<nav>
 		{#if loggedIn}
 			<div class="flex gap-4">
+				<a href="/workspace" class="hover:underline">Workspace</a>
 				<a href="/library" class="hover:underline">Library</a>
 				<button class="hover:underline" on:click={handleLogout}>Log out</button>
 			</div>

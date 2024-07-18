@@ -1,11 +1,8 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { httpUrl } from '$lib/config';
-
+import { api } from '$lib/api';
 
 export const GET: RequestHandler = async () => {
-	const response = await fetch(`${httpUrl}/documents`, {
-		method: 'GET'
-	});
+	const response = await api.get('/documents');
 
 	if (response.ok) {
 		const responseJSON = await response.json();
