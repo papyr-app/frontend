@@ -15,8 +15,6 @@ export default async function loadPDF(node: HTMLCanvasElement, data: { url: stri
 	const scale = browserViewportHeight / unscaledViewport.height;
 
 	const viewport = page.getViewport({ scale });
-	console.log(viewport);
-	console.log(scale);
 
 	const canvas = node;
 	const context = canvas.getContext('2d');
