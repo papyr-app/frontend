@@ -9,8 +9,13 @@ export default async function loadPDF(node: HTMLCanvasElement, data: { url: stri
 	const loadingTask = PDFJS.getDocument(data.url);
 	const pdf = await loadingTask.promise;
 	const page = await pdf.getPage(1);
-	const scale = 1;
+
+	const browserViewportHeight = window.innerHeight;
+	const unscaledViewport = page.getViewport({ scale: 1 });
+	const scale = browserViewportHeight / unscaledViewport.height;
+
 	const viewport = page.getViewport({ scale });
+
 	const canvas = node;
 	const context = canvas.getContext('2d');
 
@@ -21,5 +26,6 @@ export default async function loadPDF(node: HTMLCanvasElement, data: { url: stri
 		canvasContext: context,
 		viewport: viewport
 	};
+
 	await page.render(renderContext);
 }

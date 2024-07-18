@@ -4,4 +4,6 @@
 	export let url: string;
 </script>
 
-<canvas use:loadPDF={{ url }}></canvas>
+<div class="w-full h-screen flex justify-center">
+	<canvas class="border-2 border-black" use:loadPDF={{ url }}></canvas>
+</div>
