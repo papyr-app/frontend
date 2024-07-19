@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
-import { httpUrl } from '$lib/config';
+import type { Document } from '$lib/types';
+import { api } from '$lib/api';
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const token = cookies.get('token') || null;
@@ -8,17 +9,15 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		return { status: 401, error: 'Unauthorized' };
 	}
 
-	const response = await fetch(`${httpUrl}/users/documents`, {
-		method: 'GET',
+	const response = await api.get('/users/documents', {
 		headers: {
-			'Content-Type': 'application/json',
 			Authorization: token
 		}
 	});
 
 	if (response.ok) {
 		const responseJSON = await response.json();
-		const documents = responseJSON.data;
+		const documents: Document[] = responseJSON.data;
 
 		return { documents };
 	} else {
