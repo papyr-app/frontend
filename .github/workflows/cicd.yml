@@ -76,16 +76,28 @@ jobs:
           build-args: |
             BACKEND_URL=${{ env.BACKEND_URL }}
 
-      - name: Trigger deployment webhook for develop
-        if: github.ref == 'refs/heads/develop'
-        env:
-          SECRET_TOKEN: ${{ secrets.WEBHOOK_TOKEN }}
-        run: |
-          python scripts/deploy.py test
+  deploy:
+    needs: build-and-push
+    runs-on: self-hosted
+    if: success()
 
-      - name: Trigger deployment webhook for main
-        if: github.ref == 'refs/heads/main'
-        env:
-          SECRET_TOKEN: ${{ secrets.WEBHOOK_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4.2.0
+
+      - name: Set environment variables
         run: |
-          python scripts/deploy.py prod
+          if [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "ENVIRONMENT=test" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+          fi
+
+      - name: Deploy with Helm
+        env:
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+        run: |
+          helm upgrade --install frontend ./helm --namespace=$ENVIRONMENT -f ./helm/values.$ENVIRONMENT.yaml
