@@ -43,14 +43,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set API_URL for develop
-        if: github.ref == 'refs/heads/develop'
-        run: echo "BACKEND_URL=test-api.papyr-app.xyz" >> $GITHUB_ENV
-
-      - name: Set API_URL for main
-        if: github.ref == 'refs/heads/main'
-        run: echo "BACKEND_URL=api.papyr-app.xyz" >> $GITHUB_ENV
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -67,12 +59,15 @@ jobs:
           if [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             ENVIRONMENT="test"
             IMAGE_TAG="test-${{ github.sha }}"
+            BACKEND_URL=test-api.papyr-app.xyz
           elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             ENVIRONMENT="prod"
             IMAGE_TAG="prod-${{ github.sha }}"
+            BACKEND_URL=api.papyr-app.xyz
           fi
           echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_ENV
 
           echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
           echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
@@ -87,6 +82,7 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}
           build-args: |
             BACKEND_URL=${{ env.BACKEND_URL }}
+            SHA=${{ env.IMAGE_TAG }}
 
   deploy:
     needs: build-and-push
