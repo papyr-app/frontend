@@ -1,0 +1,21 @@
+name: Cleanup Old Docker Images
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  clean:
+    runs-on: self-hosted
+    name: Delete old Docker images
+    steps:
+      - uses: snok/container-retention-policy@v3.0.0
+        with:
+          account: papyr-app
+          token: ${{ secrets.GHCR_PAT }}
+          image-names: "frontend"
+          image-tags: "*"
+          cut-off: 1w
+          dry-run: false
+          keep-n-most-recent: 5

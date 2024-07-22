@@ -1,6 +1,6 @@
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
-import { httpUrl } from '$lib/config';
+import { api } from '$lib/api';
 
 export const actions = {
 	login: async ({ request, cookies }) => {
@@ -8,13 +8,7 @@ export const actions = {
 		const username = formData.get('username');
 		const password = formData.get('password');
 
-		const response = await fetch(`${httpUrl}/auth/login`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ username, password })
-		});
+		const response = await api.post('/auth/login', { username, password });
 
 		if (response.ok) {
 			const responseJSON = await response.json();
