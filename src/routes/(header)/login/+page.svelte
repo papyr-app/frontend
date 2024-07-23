@@ -32,6 +32,10 @@
 		<button class="border-black border-2 rounded-md my-2 w-16" type="submit">Log in</button>
 	</form>
 
+    <a href="/register" class="hover:underline">
+        Register
+    </a>
+
 	{#if form?.incorrect}
 		<p class="text-red-500">Invalid credentials</p>
 	{/if}

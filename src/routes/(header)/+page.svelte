@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { PUBLIC_APP_VERSION } from '$env/static/public';
+    const appVersion = import.meta.env.PUBLIC_APP_VERSION || 'default_version';
 </script>
 
 <div class="container mx-auto flex-grow flex justify-center items-center">
@@ -7,5 +7,5 @@
 </div>
 
 <div class="fixed bottom-4 right-4 text-sm">
-    <p>v.{PUBLIC_APP_VERSION}</p>
+    <p>v.{appVersion}</p>
 </div>
