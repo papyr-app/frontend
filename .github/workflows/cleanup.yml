@@ -2,7 +2,7 @@ name: Cleanup Old Docker Images
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -14,8 +14,8 @@ jobs:
         with:
           account: papyr-app
           token: ${{ secrets.GHCR_PAT }}
-          image-names: "frontend"
-          image-tags: "*"
+          image-names: 'frontend'
+          image-tags: '*'
           cut-off: 1w
           dry-run: false
           keep-n-most-recent: 5
