@@ -35,8 +35,8 @@ jobs:
     needs: lint-format
     runs-on: ubuntu-latest
     outputs:
-      environment: ${{ steps.set-env.outputs.environment }} 
-      image_tag: ${{ steps.set-env.outputs.image_tag }} 
+      environment: ${{ steps.set-env.outputs.environment }}
+      image_tag: ${{ steps.set-env.outputs.image_tag }}
     if: success()
 
     steps:
