@@ -1,5 +1,5 @@
 <script lang="ts">
-    const appVersion = process.env.VITE_APP_VERSION || 'default_version';
+    const appVersion = import.meta.env.VITE_APP_VERSION || 'default_version';
 </script>
 
 <div class="container mx-auto flex-grow flex justify-center items-center">
