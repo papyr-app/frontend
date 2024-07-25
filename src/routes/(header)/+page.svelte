@@ -1,5 +1,5 @@
 <script lang="ts">
-    const appVersion = import.meta.env.VITE_APP_VERSION || 'default_version';
+    import { appVersion } from '$lib/config';
 </script>
 
 <div class="container mx-auto flex-grow flex justify-center items-center">
