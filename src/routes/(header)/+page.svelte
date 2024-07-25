@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { appVersion } from '$lib/config';
+	import type PageServerData from './$types';
+	export let data: PageServerData;
 </script>
 
 <div class="container mx-auto flex-grow flex justify-center items-center">
@@ -7,5 +8,5 @@
 </div>
 
 <div class="fixed bottom-4 right-4 text-sm">
-    <p>v.{appVersion}</p>
+	<p>v.{data.appVersion}</p>
 </div>
