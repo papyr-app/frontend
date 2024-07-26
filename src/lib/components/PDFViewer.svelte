@@ -7,34 +7,47 @@
 		import.meta.url
 	).toString();
 
-	export let document: Blob;
+	export let pdfDocument: Blob;
 
-	async function loadPDF(node: HTMLCanvasElement, doc: Blob) {
+	async function loadPDF(parent: HTMLElement, doc: Blob) {
 		const arrayBuffer = await doc.arrayBuffer();
-		const loadingTask = PDFJS.getDocument({ data: arrayBuffer });
-		const pdf = await loadingTask.promise;
 
-		const page = await pdf.getPage(1);
+		const pdf = await PDFJS.getDocument({ data: arrayBuffer }).promise;
+		const pageNumbers = Array.from({ length: pdf.numPages }, (_, i) => i + 1);
+		const pagePromises = pageNumbers.map((number) => pdf.getPage(number));
 
-		const browserViewportHeight = window.innerHeight;
-		const unscaledViewport = page.getViewport({ scale: 1 });
-		const scale = browserViewportHeight / unscaledViewport.height;
-		const viewport = page.getViewport({ scale });
+		const pages = await Promise.all(pagePromises);
 
-		const canvas = node;
-		canvas.height = viewport.height;
-		canvas.width = viewport.width;
+		// calculate scale using first page
+		const firstPage = await pdf.getPage(1);
+		const unscaledViewport = firstPage.getViewport({ scale: 1 });
+		const pixelRatio = window.devicePixelRatio || 1;
+		const scale = (window.innerHeight / unscaledViewport.height) * pixelRatio;
 
-		const context = canvas.getContext('2d');
-		const renderContext = {
-			canvasContext: context,
-			viewport: viewport
-		};
+		const canvases = pages.forEach((page) => {
+			const viewport = page.getViewport({ scale });
 
-		await page.render(renderContext);
+			const canvas = document.createElement('canvas');
+			canvas.height = viewport.height;
+			canvas.width = viewport.width;
+
+			canvas.classList.add('border-2', 'border-black');
+			canvas.style.height = `${viewport.height / pixelRatio}px`;
+			canvas.style.width = `${viewport.width / pixelRatio}px`;
+
+			const context = canvas.getContext('2d');
+			const renderContext = {
+				canvasContext: context,
+				viewport: viewport
+			};
+
+			page.render(renderContext);
+
+			parent.appendChild(canvas);
+		});
 	}
 </script>
 
 <div class="w-full h-screen flex justify-center">
-	<canvas class="border-2 border-black" use:loadPDF={document}></canvas>
+	<div use:loadPDF={pdfDocument}></div>
 </div>

@@ -3,7 +3,7 @@
 	import PDFViewer from '$lib/components/PDFViewer.svelte';
 
 	export let data: PageData;
-	const document = data.document;
+	const pdfDocument = data.document;
 </script>
 
 <div>
@@ -11,8 +11,8 @@
 
 	{#if data.error}
 		<p>Error: {data.error}</p>
-	{:else if document instanceof Blob}
-		<PDFViewer {document} />
+	{:else if pdfDocument instanceof Blob}
+		<PDFViewer {pdfDocument} />
 	{:else}
 		<p>Loading document...</p>
 	{/if}
