@@ -1,31 +1,52 @@
 <script lang="ts">
 	import { afterUpdate } from 'svelte';
+	import { TextLayer } from 'pdfjs-dist';
 
-	export let pageNumber: number;
-	export let viewport: PageViewport;
 	export let page: PDFPageProxy;
+	export let scale: number;
 
 	let pixelRatio = window.devicePixelRatio || 1;
+	let viewport;
+
 	let canvas: HTMLCanvasElement;
 
-	const renderPage = () => {
-		const context = canvas.getContext('2d');
-		if (context) {
-			const renderContext = {
-				canvasContext: context,
-				viewport: viewport
-			};
-			page.render(renderContext);
-		}
+	let textLayerDiv: HTMLElement;
+
+	const renderPage = async () => {
+		viewport = page.getViewport({ scale });
+
+		canvas.height = viewport.height;
+		canvas.width = viewport.width;
+		const canvasContext = canvas.getContext('2d');
+
+		await page.render({
+			canvasContext,
+			viewport
+		}).promise;
+
+		const textLayer = new TextLayer({
+			textContentSource: page.streamTextContent({
+				includeMarkedContent: true,
+				disableNormalization: true
+			}),
+			container: textLayerDiv,
+			viewport
+		});
+
+		await textLayer.render();
 	};
 
 	afterUpdate(renderPage);
 </script>
 
-<canvas
-	bind:this={canvas}
-	height={viewport.height}
-	width={viewport.width}
-	class="border-2 border-black"
-	style="height: {viewport.height / pixelRatio}px; width: {viewport.width / pixelRatio}px;"
-/>
+<div
+	class="relative"
+	style="height: {viewport?.height / pixelRatio}px; width: {viewport?.width / pixelRatio}px;"
+>
+	<canvas class="border-2 border-black" bind:this={canvas} style="width: 100%; height: 100%;"
+	></canvas>
+	<div
+		bind:this={textLayerDiv}
+		class="absolute inset-0 overflow-hidden opacity-20 leading-none"
+	></div>
+</div>
