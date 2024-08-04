@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import * as PDFJS from 'pdfjs-dist';
+	import type { PDFPageProxy } from 'pdfjs-dist';
 	import PDFPage from '$lib/components/workspace/PDFPage.svelte';
 
 	PDFJS.GlobalWorkerOptions.workerSrc = new URL(
