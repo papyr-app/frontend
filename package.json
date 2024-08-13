@@ -35,6 +35,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"pdfjs-dist": "^4.4.168"
+		"pdfjs-dist": "^4.4.168",
+		"socket.io-client": "^4.7.5"
 	}
 }

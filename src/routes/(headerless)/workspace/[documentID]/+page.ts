@@ -2,8 +2,9 @@ import type { PageLoad } from './$types';
 import { browser } from '$app/environment';
 import { getDocument, storeDocument } from '$lib/indexedDB';
 
-export const load: PageLoad = async ({ params, fetch }) => {
+export const load: PageLoad = async ({ data, params, fetch }) => {
 	const { documentID } = params;
+	const { token } = data;
 
 	if (!browser) {
 		return {};
@@ -12,7 +13,7 @@ export const load: PageLoad = async ({ params, fetch }) => {
 	try {
 		const cachedDocument = await getDocument(documentID);
 		if (cachedDocument) {
-			return { document: cachedDocument };
+			return { document: cachedDocument, documentID: documentID, token: token };
 		}
 
 		const response = await fetch(`/api/documents/${documentID}`);
@@ -24,7 +25,7 @@ export const load: PageLoad = async ({ params, fetch }) => {
 
 		await storeDocument(documentID, fetchedDocument);
 
-		return { document: fetchedDocument };
+		return { document: fetchedDocument, documentID: documentID, token: token };
 	} catch (error) {
 		console.error('Error loading document:', error);
 		return { error: 'Failed to load document' };
